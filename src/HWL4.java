@@ -1,25 +1,23 @@
-import java.util.Arrays;
-import java.util.Random;
 import java.util.Scanner;
 
 public class HWL4{
 
     static boolean firstStep = true;
     static int fieldLen = 3;
+    static int r = 0;
     static int[][] finalScope;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Random random = new Random();
 
-        play(scanner, random);
+        play(scanner);
     }
 
-    static void play(Scanner scanner, Random random) {
+    static void play(Scanner scanner) {
 
-        System.out.print("Введи размерность поля: ");
-        fieldLen = scanner.nextInt();
-        System.out.println();
+        //System.out.print("Введи размерность поля: ");
+        //fieldLen = scanner.nextInt();
+        //System.out.println();
 
         char[][] field = getField(fieldLen);
         drawField(field);
@@ -30,7 +28,7 @@ public class HWL4{
                 break;
             }
 
-            doAIMove(random, field);
+            doAIMove(field);
             if (isFinal(field, 'O')) {
                 break;
             }
@@ -87,11 +85,7 @@ public class HWL4{
             }
         }
 
-        if (sumMainDi == fieldLen || sumNotMainDi == fieldLen){
-            return true;
-        }
-
-        return false;
+        return sumMainDi == fieldLen || sumNotMainDi == fieldLen;
     }
 
     /**
@@ -115,10 +109,9 @@ public class HWL4{
     /**
      * Ход ИИ
      * В этот момент у нас по-любому есть хоть одна клетка свободная
-     * @param random рандомайзер
      * @param field поле
      */
-    static void doAIMove(Random random, char[][] field) {
+    static void doAIMove(char[][] field) {
 
         finalScope = new int[fieldLen][fieldLen];
 
@@ -140,7 +133,8 @@ public class HWL4{
                     continue;
                 }
 
-                finalScope[i][j] = getCombi(field, i, j, 'O');
+                finalScope[i][j] = getCombi(field, i, j, 'O', 0);
+                System.out.println(r);
 
                 if (maxPer <= finalScope[i][j]){
                     maxPer = finalScope[i][j];
@@ -153,17 +147,25 @@ public class HWL4{
         field[x][y] = 'O';
     }
 
-    private static int getCombi(char[][] temporyField, int i, int j, char symbol) {
-
+    /**
+     * Реализуем ИИ - попытка просчитать все варианты рекурсией
+     * @param temporyField поле
+     * @param i рассматриваемая строка
+     * @param j рассматриваемый стоблец
+     * @param symbol Х или 0
+     * @return вес ячейки
+     */
+    private static int getCombi(char[][] temporyField, int i, int j, char symbol, int depth) {
+        ++r;
         char[][] field = temporyField.clone();
-        for(int k = 0; k < temporyField.length; k++)
+        for(int k = 0; k < fieldLen; k++)
             field[k] = temporyField[k].clone();
 
         field[i][j] = symbol;
 
         if(isWin(field, symbol)){
             if (symbol == 'O') {
-                return 2;
+                return 2 + fieldLen - depth;
             } else {
                 return 0;
             }
@@ -173,7 +175,7 @@ public class HWL4{
         }
 
         int sumper = 0;
-        //drawField(field);
+
         for (int x = 0; x < fieldLen; x++){
             for (int y = 0; y < fieldLen; y++){
                 if (-1 == finalScope[x][y] || '-' != field[x][y]){
@@ -184,7 +186,7 @@ public class HWL4{
                 } else {
                     symbol = 'O';
                 }
-                sumper += getCombi(field, x, y, symbol);
+                sumper += getCombi(field, x, y, symbol, depth - 1);
             }
         }
 
