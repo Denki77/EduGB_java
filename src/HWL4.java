@@ -122,10 +122,6 @@ public class HWL4{
 
         finalScope = new int[fieldLen][fieldLen];
 
-        /*char[][] temporyField = field.clone();
-        for(int i = 0; i < field.length; i++)
-            temporyField[i] = field[i].clone();*/
-
         if (firstStep){
             firstStep = false;
             for (int i = 0; i < fieldLen; i++) {
@@ -154,12 +150,6 @@ public class HWL4{
             }
         }
 
-        drawField1(finalScope);
-        /*int x, y;
-        do {
-            x = random.nextInt(fieldLen);
-            y = random.nextInt(fieldLen);
-        } while (field[x][y] != '-');*/
         field[x][y] = 'O';
     }
 
