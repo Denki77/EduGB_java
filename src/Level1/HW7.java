@@ -1,5 +1,7 @@
-import lesson7.Cat;
-import lesson7.Plate;
+package Level1;
+
+import Level1.lesson7.Cat;
+import Level1.lesson7.Plate;
 
 /**
  * 1. Расширить задачу про котов и тарелки с едой (задача в методичке)

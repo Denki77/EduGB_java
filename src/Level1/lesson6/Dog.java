@@ -1,16 +1,14 @@
-package lesson6;
+package Level1.lesson6;
 
-import java.util.Random;
+public class Dog extends Animals{
 
-public class Cat extends Animals{
-
-    public Cat(String name){
-        this.type_animal = "cat";
+    public Dog(String name){
+        this.type_animal = "dog";
         this.name = name;
 
-        this.max_distance_for_run = random.nextInt(200);
-        this.max_distance_for_swim = 0;
-        this.max_height_for_jump = random.nextInt(10);
+        this.max_distance_for_run = random.nextInt(1000);
+        this.max_distance_for_swim = random.nextInt(100);
+        this.max_height_for_jump = random.nextInt(5);
     }
 
     @Override

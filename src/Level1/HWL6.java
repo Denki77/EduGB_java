@@ -1,5 +1,7 @@
-import lesson6.Cat;
-import lesson6.Dog;
+package Level1;
+
+import Level1.lesson6.Cat;
+import Level1.lesson6.Dog;
 
 public class HWL6 {
     /**

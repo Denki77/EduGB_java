@@ -1,4 +1,4 @@
-package lesson7;
+package Level1.lesson7;
 
 public class Plate {
 
