@@ -54,9 +54,10 @@ public class HWL3 {
         telephoneDir.add("Ivanova", "79161234568");
         telephoneDir.add("Sidorov", "79161234569");
 
-        telephoneDir.get("Petrova");
-        telephoneDir.get("Ivanova");
-        telephoneDir.get("Sidorov");
-        telephoneDir.get("Matveev");
+        System.out.println("Petrova: " + telephoneDir.get("Petrova"));
+        System.out.println("Ivanova: " + telephoneDir.get("Ivanova"));
+        System.out.println("Sidorov: " + telephoneDir.get("Sidorov"));
+        System.out.println("Matveev: " + telephoneDir.get("Matveev"));
+
     }
 }
