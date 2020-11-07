@@ -3,6 +3,7 @@ package Level2.lesson3;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class TelephoneDirectory {
 
@@ -16,11 +17,7 @@ public class TelephoneDirectory {
         }
     }
 
-    public void get(String surname){
-        if (this.telephoneDirectory.containsKey(surname)){
-            System.out.println(surname + ": " + this.telephoneDirectory.get(surname));
-        } else {
-            System.out.println(surname + ": []");
-        }
+    public ArrayList<String> get(String surname){
+        return telephoneDirectory.getOrDefault(surname, new ArrayList<>());
     }
 }
