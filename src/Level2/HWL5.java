@@ -3,11 +3,16 @@ package Level2;
 public class HWL5 {
     static final int size = 10000000;
     static final int h = size / 2;
+    static float[] arrForFast = new float[size];
 
     public static void main(String[] args) {
 
         doSlowRunArray();
-        doFastRunArray();
+        try {
+            doFastRunArray();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -23,35 +28,34 @@ public class HWL5 {
         doFinishString("slow", arr[h - 1], arr[size - 1], (System.currentTimeMillis() - a));
     }
 
-    private static void doFastRunArray() {
+    private static void doFastRunArray() throws InterruptedException {
         long a = System.currentTimeMillis();
         System.out.println("Start fast method!");
-        float[] arr = createMegaArray();
+        arrForFast = createMegaArray();
         float[] a1 = new float[h];
         float[] a2 = new float[h];
 
-        System.arraycopy(arr, 0, a1, 0, h);
-        System.arraycopy(arr, h, a2, 0, h);
+        System.arraycopy(arrForFast, 0, a1, 0, h);
+        System.arraycopy(arrForFast, h, a2, 0, h);
 
-        Thread t1 = new Thread(() -> {
-            synchronized (arr) {
-                for (int i = 0; i < h; i++) {
-                    a1[i] = execValue(a1[i], i);
-                }
-                System.arraycopy(a1, 0, arr, 0, h);
-            }
-        });
+        Thread t1 = new Thread(() -> createFinishArrayForFastMethod(a1, 0));
 
-        t1.setPriority(1);
+        Thread t2 = new Thread(() -> createFinishArrayForFastMethod(a2, h));
+
         t1.start();
+        t2.start();
 
-        // параллельное вычисление в потоке main
-        for (int i = 0; i < h; i++) {
-            a2[i] = execValue(a2[i], (i + h));
+        t1.join();
+        t2.join();
+
+        doFinishString("fast", arrForFast[h - 1], arrForFast[size - 1], (System.currentTimeMillis() - a));
+    }
+
+    private static void createFinishArrayForFastMethod(float[] a, int stepValue) {
+        for (int i = 0; i < a.length; i++) {
+            a[i] = execValue(a[i], i + stepValue);
         }
-        System.arraycopy(a2, 0, arr, h, h);
-
-        doFinishString("fast", arr[h - 1], arr[size - 1], (System.currentTimeMillis() - a));
+        System.arraycopy(a, 0, arrForFast, stepValue, h);
     }
 
     private static float[] createMegaArray() {
