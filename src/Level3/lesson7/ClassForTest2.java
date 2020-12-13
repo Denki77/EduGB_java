@@ -37,5 +37,4 @@ public class ClassForTest2 {
         return 5;
     }
 
-
 }
