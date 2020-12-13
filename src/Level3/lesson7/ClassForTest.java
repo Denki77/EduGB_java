@@ -43,5 +43,4 @@ public class ClassForTest {
         return 5;
     }
 
-
 }
